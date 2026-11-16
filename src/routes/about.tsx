@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader, DisclaimerFooter } from "@/components/AppShell";
 import { Mascot } from "@/components/Mascot";
 
@@ -39,6 +39,11 @@ function AboutPage() {
             Photos are analysed by AI to estimate size, bag type, and how
             stuffed it looks. Reference objects (bananas, pints, cats) help the
             AI scale things properly.
+          </p>
+          <p>
+            <Link to="/eval" className="font-bold underline">
+              How accurate is it? See the eval →
+            </Link>
           </p>
         </section>
 

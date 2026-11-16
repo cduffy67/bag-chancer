@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as EvalRouteImport } from './routes/eval'
 import { Route as CheckRouteImport } from './routes/check'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -24,6 +25,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvalRoute = EvalRouteImport.update({
+  id: '/eval',
+  path: '/eval',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckRoute = CheckRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/check': typeof CheckRoute
+  '/eval': typeof EvalRoute
   '/history': typeof HistoryRoute
   '/profile': typeof ProfileRoute
   '/result/$id': typeof ResultIdRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/check': typeof CheckRoute
+  '/eval': typeof EvalRoute
   '/history': typeof HistoryRoute
   '/profile': typeof ProfileRoute
   '/result/$id': typeof ResultIdRoute
@@ -68,20 +76,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/check': typeof CheckRoute
+  '/eval': typeof EvalRoute
   '/history': typeof HistoryRoute
   '/profile': typeof ProfileRoute
   '/result/$id': typeof ResultIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/check' | '/history' | '/profile' | '/result/$id'
+  fullPaths: '/' | '/about' | '/check' | '/eval' | '/history' | '/profile' | '/result/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/check' | '/history' | '/profile' | '/result/$id'
+  to: '/' | '/about' | '/check' | '/eval' | '/history' | '/profile' | '/result/$id'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/check'
+    | '/eval'
     | '/history'
     | '/profile'
     | '/result/$id'
@@ -91,6 +101,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CheckRoute: typeof CheckRoute
+  EvalRoute: typeof EvalRoute
   HistoryRoute: typeof HistoryRoute
   ProfileRoute: typeof ProfileRoute
   ResultIdRoute: typeof ResultIdRoute
@@ -117,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/check'
       fullPath: '/check'
       preLoaderRoute: typeof CheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eval': {
+      id: '/eval'
+      path: '/eval'
+      fullPath: '/eval'
+      preLoaderRoute: typeof EvalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -147,6 +165,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CheckRoute: CheckRoute,
+  EvalRoute: EvalRoute,
   HistoryRoute: HistoryRoute,
   ProfileRoute: ProfileRoute,
   ResultIdRoute: ResultIdRoute,
