@@ -89,3 +89,7 @@ Bag analysis needs an AI gateway key in the server environment (`LOVABLE_API_KEY
 ## Disclaimer
 
 Baggage rules change. Always check your airline's own website before you fly.
+
+## Licence
+
+[MIT](LICENSE). Code only: the product photos used in the eval belong to their owners and are linked, not included.
