@@ -1,0 +1,171 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Bag Chancer — Pop Gate palette */
+
+@theme inline {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-verdict-green: var(--verdict-green);
+  --color-verdict-green-foreground: var(--verdict-green-foreground);
+  --color-verdict-lime: var(--verdict-lime);
+  --color-verdict-lime-foreground: var(--verdict-lime-foreground);
+  --color-verdict-amber: var(--verdict-amber);
+  --color-verdict-amber-foreground: var(--verdict-amber-foreground);
+  --color-verdict-orange: var(--verdict-orange);
+  --color-verdict-orange-foreground: var(--verdict-orange-foreground);
+  --color-verdict-red: var(--verdict-red);
+  --color-verdict-red-foreground: var(--verdict-red-foreground);
+
+  --color-chancer-pink: var(--chancer-pink);
+  --color-gate-blue: var(--gate-blue);
+  --color-gate-yellow: var(--gate-yellow);
+
+  --shadow-chunky: 6px 6px 0 0 var(--shadow-color);
+  --shadow-chunky-lg: 10px 10px 0 0 var(--shadow-color);
+}
+
+:root {
+  --radius: 1.25rem;
+
+  /* Pop Gate — bubblegum pink, magenta, traffic yellow, sky blue */
+  --background: oklch(0.985 0.012 340);
+  --foreground: oklch(0.22 0.05 290);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.05 290);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.05 290);
+
+  --primary: oklch(0.62 0.24 350); /* hot magenta */
+  --primary-foreground: oklch(0.99 0 0);
+
+  --secondary: oklch(0.72 0.18 250); /* sky blue */
+  --secondary-foreground: oklch(0.99 0 0);
+
+  --muted: oklch(0.95 0.02 340);
+  --muted-foreground: oklch(0.45 0.04 290);
+
+  --accent: oklch(0.88 0.18 95); /* traffic yellow */
+  --accent-foreground: oklch(0.22 0.05 290);
+
+  --destructive: oklch(0.62 0.25 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.22 0.05 290 / 0.18);
+  --input: oklch(0.22 0.05 290 / 0.15);
+  --ring: oklch(0.62 0.24 350);
+
+  --chancer-pink: oklch(0.78 0.16 0);
+  --gate-blue: oklch(0.72 0.18 250);
+  --gate-yellow: oklch(0.88 0.18 95);
+
+  --verdict-green: oklch(0.72 0.2 145);
+  --verdict-green-foreground: oklch(0.99 0 0);
+  --verdict-lime: oklch(0.9 0.18 125);
+  --verdict-lime-foreground: oklch(0.22 0.06 145);
+
+  --verdict-amber: oklch(0.86 0.17 90);
+  --verdict-amber-foreground: oklch(0.22 0.05 60);
+  --verdict-orange: oklch(0.72 0.2 50);
+  --verdict-orange-foreground: oklch(0.99 0 0);
+  --verdict-red: oklch(0.64 0.24 25);
+  --verdict-red-foreground: oklch(0.99 0 0);
+
+  --shadow-color: oklch(0.22 0.05 290 / 0.9);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    background-image:
+      radial-gradient(circle at 10% 0%, oklch(0.88 0.18 95 / 0.35) 0, transparent 40%),
+      radial-gradient(circle at 100% 20%, oklch(0.72 0.18 250 / 0.3) 0, transparent 45%),
+      radial-gradient(circle at 50% 100%, oklch(0.78 0.16 0 / 0.3) 0, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .card-chunky {
+    border: 2px solid var(--foreground);
+    border-radius: var(--radius-3xl);
+    box-shadow: 6px 6px 0 0 var(--foreground);
+    background: var(--card);
+  }
+  .card-chunky-lg {
+    border: 2.5px solid var(--foreground);
+    border-radius: var(--radius-4xl);
+    box-shadow: 10px 10px 0 0 var(--foreground);
+    background: var(--card);
+  }
+  .btn-chunky {
+    border: 2px solid var(--foreground);
+    border-radius: 9999px;
+    box-shadow: 4px 4px 0 0 var(--foreground);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .btn-chunky:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 0 var(--foreground); }
+  .btn-chunky:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 0 var(--foreground); }
+}
+
+@keyframes siren-shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20% { transform: translateX(-6px) rotate(-1.5deg); }
+  40% { transform: translateX(6px) rotate(1.5deg); }
+  60% { transform: translateX(-4px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+.animate-siren { animation: siren-shake 0.6s ease-in-out infinite; }
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+.animate-wobble { animation: wobble 2s ease-in-out infinite; }
+
+</invoke>
