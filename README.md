@@ -2,7 +2,7 @@
 
 **Will your bag survive the gate?** Snap a photo of your bag, pick your airline and fare, and Bag Chancer tells you whether you'll get it on board on Ireland ↔ UK flights.
 
-It's a playful, mobile-first web app with a serious core. A vision model estimates the bag's size and type from the photo. A rules engine then checks that estimate against each airline's published cabin allowances and gives a traffic-light verdict.
+It's a playful, mobile-first web app with a serious core. **The model estimates; the code decides.** A vision model only estimates the bag's size and type from the photo. Plain, tested TypeScript then checks that estimate against each airline's published cabin allowances and gives the traffic-light verdict. The model never decides whether you pass.
 
 > Bag Chancer is for fun and guidance only. Airline staff always have the final say.
 
@@ -53,6 +53,15 @@ Product photos of **21 real bags with manufacturer-published dimensions** are ru
 - **Integration bugs show up in an eval before anywhere else.** The first run found that the gateway only serves Claude via the native Messages API, that OpenAI rejects AVIF images, and that the cheaper models hit rate limits. Rate-limited calls are retried rather than scored as model failures.
 
 **Limitations:** 21 items is small. A difference of a few points in the fit call is about two decisions, so it's within noise. The photos are retail shots, not phone photos taken in a hallway. The next step is a set of real phone photos with measured dimensions.
+
+### Running the eval yourself
+
+1. Deploy the app with an AI gateway key in the server environment (`LOVABLE_API_KEY`).
+2. Choose your own eval token and put its SHA-256 hash in `EVAL_TOKEN_SHA256` in [`runEval.functions.ts`](src/lib/eval/runEval.functions.ts) (`echo -n "your-token" | shasum -a 256`).
+3. Open `/eval?key=your-token`, pick models from the list the gateway returns, and click **Fresh run**. **Retry failures + add new models** re-runs only failed checks and merges them into the saved run.
+4. Open **Export JSON** and paste it into [`results.ts`](src/lib/eval/results.ts) to update the published numbers.
+
+The dataset ([`dataset.ts`](src/lib/eval/dataset.ts)) stores links to retailer product photos plus the published dimensions and a source URL for each. The images themselves are not stored in this repo. Scoring ([`metrics.ts`](src/lib/eval/metrics.ts)) is pure TypeScript with no network calls.
 
 ## Stack
 
