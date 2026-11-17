@@ -9,7 +9,7 @@
   <img src="docs/eval-scale-finding.png" alt="Eval finding: without scale, three of five models estimated a 76 cm hold case as a 55 cm cabin bag" width="480" />
 </p>
 
-It's a playful, mobile-first web app with a serious core. **The model estimates; the code decides.** A vision model only estimates the bag's size and type from the photo. Plain, tested TypeScript then checks that estimate against each airline's published cabin allowances and gives the traffic-light verdict. The model never decides whether you pass.
+It's a playful, mobile-first web app with a serious core. **The model estimates; the code decides.** A vision model only estimates the bag's size and type from the photo. Plain TypeScript then checks that estimate against each airline's published cabin allowances and gives the traffic-light verdict. The model never decides whether you pass.
 
 > Bag Chancer is for fun and guidance only. Airline staff always have the final say.
 
