@@ -8,12 +8,19 @@ import { summariseAll, type EvalRow, type ModelSummary } from "@/lib/eval/metric
 import { EVAL_RESULTS } from "@/lib/eval/results";
 import { evalOne, listEvalModels } from "@/lib/eval/runEval.functions";
 import { DEFAULT_VISION_MODEL } from "@/lib/eval/constants";
+import {
+  EvalHero,
+  FindingAccuracyVsDecisions,
+  FindingIntegration,
+  FindingScaleAmbiguity,
+  FindingStandardSizes,
+} from "@/components/EvalFindings";
 
 export const Route = createFileRoute("/eval")({
   component: EvalPage,
   head: () => ({
     meta: [
-      { title: "How accurate is it? — Bag Chancer" },
+      { title: "Can AI tell if your bag will fit? — Bag Chancer" },
       {
         name: "description",
         content:
@@ -48,27 +55,41 @@ function EvalPage() {
         >
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
-        <h1 className="flex items-center gap-2 font-display text-3xl font-extrabold">
-          <FlaskConical className="h-7 w-7" /> How accurate is it?
+        <div className="text-xs font-bold uppercase tracking-wide text-primary">
+          <FlaskConical className="mr-1 inline h-4 w-4 align-[-3px]" />
+          Research · 5 models · {EVAL_DATASET.length} bags
+        </div>
+        <h1 className="mt-1 font-display text-4xl font-extrabold leading-[1.05]">
+          Can AI tell if your bag will fit?
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {EVAL_DATASET.length} product photos of real bags (under-seat backpacks up to an 87 cm
-          hold case), each with the manufacturer&apos;s published dimensions. Every photo goes
-          through the exact prompt the app uses, and the estimate is scored against the truth.
-          Most are clean studio shots with <strong>nothing in frame for scale</strong> (the hardest
-          case for the model); two are lifestyle shots with a person carrying the bag.
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Bag Chancer asks a vision model to estimate your bag&apos;s size from one photo, then
+          plain code applies the airline&apos;s rules. To find out how far you can trust that, I
+          took product photos of {EVAL_DATASET.length} real bags with manufacturer-published
+          dimensions, from 40 cm under-seat backpacks to an 87 cm hold case. I ran each one through
+          the exact prompt the app uses on five models from Google, Anthropic and OpenAI, and
+          scored every estimate against the real size.
         </p>
 
         {committed ? (
-          <section className="mt-6">
-            <p className="text-xs text-muted-foreground">
-              Last run {new Date(committed.runAt).toLocaleDateString()} · prompt{" "}
-              {committed.promptVersion}
-            </p>
-            <SummaryTable summaries={committedSummary} />
-            <BreakdownTable summaries={committedSummary} />
-            <ItemGrid rows={committed.rows} />
-          </section>
+          <>
+            <EvalHero summaries={committedSummary} rows={committed.rows} />
+            <FindingAccuracyVsDecisions summaries={committedSummary} />
+            <FindingScaleAmbiguity rows={committed.rows} />
+            <FindingStandardSizes rows={committed.rows} />
+            <FindingIntegration />
+
+            <section className="mt-10">
+              <h2 className="font-display text-2xl font-extrabold">Full results</h2>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Run {new Date(committed.runAt).toLocaleDateString("en-GB")} · prompt{" "}
+                {committed.promptVersion} · scroll the tables sideways on mobile
+              </p>
+              <SummaryTable summaries={committedSummary} />
+              <BreakdownTable summaries={committedSummary} />
+              <ItemGrid rows={committed.rows} />
+            </section>
+          </>
         ) : (
           <p className="card-chunky mt-6 p-5 text-sm">No eval results committed yet.</p>
         )}
@@ -248,7 +269,22 @@ function Methodology() {
         </li>
         <li>
           <strong>Failures</strong>: unparseable responses, call errors, or calling a real bag
-          &ldquo;not a bag&rdquo;.
+          &ldquo;not a bag&rdquo;. Rate-limited calls are retried, not counted.
+        </li>
+      </ul>
+      <h2 className="pt-2 font-display text-lg font-bold">Limitations</h2>
+      <ul className="list-disc space-y-1 pl-5">
+        <li>
+          {EVAL_DATASET.length} bags is a small set: a few points of difference in the fit call is
+          about two decisions, which is within noise.
+        </li>
+        <li>
+          These are retail product photos, not phone photos taken in a hallway, and only two have
+          anything in frame for scale.
+        </li>
+        <li>
+          Next: real phone photos of measured bags, with a reference object, to test the app the
+          way people actually use it.
         </li>
       </ul>
     </section>

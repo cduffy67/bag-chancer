@@ -4,32 +4,39 @@ import { ProfileAvatar } from "@/components/Avatar";
 
 export function AppHeader() {
   return (
-    <header className="mx-auto flex max-w-md items-center justify-between px-5 pt-6">
-      <Link to="/" className="flex items-center gap-2">
-        <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary text-primary-foreground btn-chunky">
+    <header className="mx-auto flex max-w-md items-center justify-between gap-2 px-4 pt-6 sm:px-5">
+      <Link to="/" className="flex shrink-0 items-center gap-1.5">
+        <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary text-primary-foreground btn-chunky sm:h-10 sm:w-10">
           <Luggage className="h-5 w-5" />
         </span>
-        <span className="font-display text-2xl font-extrabold tracking-tight">
+        <span className="whitespace-nowrap font-display text-lg font-extrabold tracking-tight sm:text-2xl">
           Bag Chancer
         </span>
       </Link>
-      <nav className="flex items-center gap-1 text-sm font-semibold">
+      <nav className="flex items-center text-[13px] font-semibold sm:gap-0.5 sm:text-sm">
         <Link
           to="/history"
-          className="rounded-full px-3 py-1.5 hover:bg-accent/60"
+          className="rounded-full px-1.5 py-1.5 hover:bg-accent/60 sm:px-2.5"
           activeProps={{ className: "bg-accent" }}
         >
           History
         </Link>
         <Link
+          to="/eval"
+          className="rounded-full px-1.5 py-1.5 hover:bg-accent/60 sm:px-2.5"
+          activeProps={{ className: "bg-accent" }}
+        >
+          Eval
+        </Link>
+        <Link
           to="/about"
-          className="rounded-full px-3 py-1.5 hover:bg-accent/60"
+          className="rounded-full px-1.5 py-1.5 hover:bg-accent/60 sm:px-2.5"
           activeProps={{ className: "bg-accent" }}
         >
           About
         </Link>
-        <Link to="/profile" className="ml-1" aria-label="Profile">
-          <ProfileAvatar size={32} />
+        <Link to="/profile" className="ml-0.5" aria-label="Profile">
+          <ProfileAvatar size={28} />
         </Link>
       </nav>
     </header>

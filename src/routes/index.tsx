@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles, Ticket } from "lucide-react";
+import { ArrowRight, FlaskConical, Sparkles, Ticket } from "lucide-react";
 import { AppHeader, DisclaimerFooter } from "@/components/AppShell";
 import { Mascot } from "@/components/Mascot";
 import { ProfileAvatar, NotBagBadge } from "@/components/Avatar";
@@ -8,6 +8,9 @@ import { TripCounter } from "@/components/TripCounter";
 import { VerdictBadge } from "@/components/VerdictBadge";
 import { loadHistory, type HistoryEntry } from "@/lib/history";
 import { type Traffic } from "@/lib/verdict";
+import { EVAL_DATASET } from "@/lib/eval/dataset";
+import { summariseAll } from "@/lib/eval/metrics";
+import { EVAL_RESULTS } from "@/lib/eval/results";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -86,6 +89,8 @@ function Home() {
 
         <TripCounter />
 
+        {EVAL_RESULTS && <EvalTeaser />}
+
         <section className="mt-8">
           <h2 className="mb-3 flex items-center gap-2 px-1 font-display text-xl font-bold">
             <Sparkles className="h-4 w-4" /> How it works
@@ -150,5 +155,27 @@ function Home() {
         <DisclaimerFooter />
       </main>
     </div>
+  );
+}
+
+function EvalTeaser() {
+  const summaries = summariseAll(EVAL_RESULTS!.rows);
+  const best = [...summaries].sort((a, b) => b.fitAgreementPct - a.fitAgreementPct)[0];
+  return (
+    <Link to="/eval" className="card-chunky mt-6 flex items-center gap-3 p-4">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-accent">
+        <FlaskConical className="h-5 w-5" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display text-base font-extrabold leading-tight">
+          Can AI tell if your bag will fit?
+        </span>
+        <span className="block text-xs text-muted-foreground">
+          {summaries.length} models, {EVAL_DATASET.length} bags with known sizes. The best gets the
+          pass/fail call right {Math.round(best.fitAgreementPct)}% of the time.
+        </span>
+      </span>
+      <ArrowRight className="h-4 w-4 shrink-0" />
+    </Link>
   );
 }
