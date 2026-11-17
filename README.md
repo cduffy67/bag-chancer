@@ -2,6 +2,13 @@
 
 **Will your bag survive the gate?** Snap a photo of your bag, pick your airline and fare, and Bag Chancer tells you whether you'll get it on board on Ireland ↔ UK flights.
 
+**[Try it live →](https://bag-chancer-ai.lovable.app)** · **[Read the eval →](https://bag-chancer-ai.lovable.app/eval)** · Built by [Conor Duffy](https://human-shaped-systems.lovable.app)
+
+<p>
+  <img src="docs/home.png" alt="Bag Chancer home screen" width="300" />
+  <img src="docs/eval-scale-finding.png" alt="Eval finding: without scale, three of five models estimated a 76 cm hold case as a 55 cm cabin bag" width="480" />
+</p>
+
 It's a playful, mobile-first web app with a serious core. **The model estimates; the code decides.** A vision model only estimates the bag's size and type from the photo. Plain, tested TypeScript then checks that estimate against each airline's published cabin allowances and gives the traffic-light verdict. The model never decides whether you pass.
 
 > Bag Chancer is for fun and guidance only. Airline staff always have the final say.
@@ -33,7 +40,7 @@ It's a playful, mobile-first web app with a serious core. **The model estimates;
 
 ## Does it actually work? The eval
 
-Product photos of **21 real bags with manufacturer-published dimensions** are run through the exact prompt the app uses, and each estimate is scored against the published size. The bags range from 40 cm under-seat backpacks to an 87 cm hold case. Results are live at [`/eval`](src/routes/eval.tsx), and the harness is in [`src/lib/eval/`](src/lib/eval). Running it spends AI credits, so the runner is gated by a token whose SHA-256 hash is the only thing stored in the repo.
+Product photos of **21 real bags with manufacturer-published dimensions** are run through the exact prompt the app uses, and each estimate is scored against the published size. The bags range from 40 cm under-seat backpacks to an 87 cm hold case. Results are live at [bag-chancer-ai.lovable.app/eval](https://bag-chancer-ai.lovable.app/eval) (source: [`eval.tsx`](src/routes/eval.tsx)), and the harness is in [`src/lib/eval/`](src/lib/eval). Running it spends AI credits, so the runner is gated by a token whose SHA-256 hash is the only thing stored in the repo.
 
 | Model | Avg error | Sides within ±3 cm | Fit call right¹ | Exact band² | Median latency | Tokens in / out |
 |---|---|---|---|---|---|---|
